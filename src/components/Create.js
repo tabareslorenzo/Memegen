@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './image.css';
 import Addtext from './Addtext';
 import Text from './Text';
-
+import {saveSvgAsPng} from 'save-svg-as-png';
 
 
 class Create extends Component{
@@ -105,7 +105,15 @@ class Create extends Component{
       }
       resetText = () => {
             var txts = this.state.text;
+            console.log("yrp");
             this.setState({text: txts.filter(txt=> false) });
+      }
+
+      download = () =>
+      {
+            saveSvgAsPng(document.getElementById('meme'), "diagram.png");
+            return;
+
       }
       // txts = this.;
       yy = 1;
@@ -114,6 +122,7 @@ class Create extends Component{
       num = 15;
       str = this.num.toString() + "100";
       // getDerivedStateFromProps(this.props.curImage, this.state);
+
 
       // console.log(this.txtt.top);
 
@@ -127,12 +136,10 @@ class Create extends Component{
             return (
             <div className="container">
                   <Addtext addtext={this.addtext}></Addtext>
-                  <button onClick={this.resetText}>Reset</button>
 
+                  <svg id='meme' className="container-svg">
 
-                  <svg className="container">
-
-                  <image   xlinkHref={this.props.curImage.url} width="100%" height="100%"></image>
+                  <image  xlinkHref= {this.props.curImage.url} width="100%" height="100%"></image>
 
                   {this.state.text.map(txt => (<text id={txt.id} x={txt.xloc} y={txt.yloc} onMouseDown={event => this.changeloc(event,txt.id)} onMouseUp={event => this.stopchange(event,txt.id)} style={txtStyle}>{txt.string}</text>
 ))}
@@ -140,6 +147,15 @@ class Create extends Component{
 
 
                   </svg>
+                  <div>
+                        <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
+                        <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
+                  </div>
+
+
+
+
+
 
 
 
@@ -154,6 +170,15 @@ class Create extends Component{
 //PropTypes
 Create.proTypes = {
       curImage: PropTypes.object.isRequired
+}
+const btnStyle = {
+      left: '100%',
+      backgroundColor: '#0033cc',
+      color: '#fff',
+      border: '10px',
+      padding: '5px 8px',
+      cursor: 'pointer',
+      float: 'right'
 }
 
 const txtStyle = {
@@ -180,7 +205,7 @@ export default Create;
 //
 //
 // </div>
-// );
+// );<canvas id="canvas"></canvas>
 //<img src={this.props.curImage.url}></img>
 //{this.txts.map(txt => ( <Text key={txt.id} text={txt}/>))}
 //{this.txts.map(txt => ( <text x="10" y="200" className="txtloc">{txt.string}</text>))}
