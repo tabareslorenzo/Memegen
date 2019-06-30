@@ -4,6 +4,8 @@ import './image.css';
 import Addtext from './Addtext';
 import Text from './Text';
 import {saveSvgAsPng} from 'save-svg-as-png';
+import {svgAsPngUri} from 'save-svg-as-png';
+
 
 
 class Create extends Component{
@@ -112,8 +114,15 @@ class Create extends Component{
       download = () =>
       {
             saveSvgAsPng(document.getElementById('meme'), "diagram.png");
+            // svgAsPngUri(document.getElementById('meme')).then(uri => console.log("good"));
             return;
 
+      }
+      save = () =>
+      {
+            //saveSvgAsPng(document.getElementById('meme'), "diagram.png");
+            svgAsPngUri(document.getElementById('meme')).then(uri => this.props.addmeme(uri));
+            return;
       }
       // txts = this.;
       yy = 1;
@@ -149,6 +158,7 @@ class Create extends Component{
                   </svg>
                   <div>
                         <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
+                        <button className="btn-container" style={btnStyle} onClick={this.save}>Save</button>
                         <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
                   </div>
 

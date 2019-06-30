@@ -2,6 +2,7 @@ import React, {Component}  from 'react';
 import './App.css';
 import Memes from './components/Memes';
 import Create from './components/Create';
+import Savedmemes from './components/Savedmemes';
 
 class App extends Component {
       state = {
@@ -20,7 +21,18 @@ class App extends Component {
                         id:0,
                         mving:false,
                   }]
+            },
+            savedmemes:[{
+                  string:'',
+            }]
+      }
+      //<Savedmemes savedmemes={this.state.savedmemes}/>
+      addmeme = (str) =>
+      {
+            const smeme = {
+                  string:str,
             }
+            this.setState({savedmemes: [...this.state.savedmemes, smeme]});
       }
       selectImg = (curUrl) =>
       {
@@ -89,7 +101,7 @@ class App extends Component {
                             <header className="App-header">
 
                             </header>
-                            <Create curImage={this.state.curImage} ></Create>
+                            <Create curImage={this.state.curImage} addmeme={this.addmeme} ></Create>
                              <Memes memes={pics} selectImg={this.selectImg} text={this.state.curImage.texts}></Memes>
 
                          </div>
