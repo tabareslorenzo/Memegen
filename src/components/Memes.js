@@ -6,6 +6,10 @@ class Memes extends Component{
 
       render() {
             // console.log(this.props.memes);
+            if(this.props.memes.loaded===false)
+            {
+                  return(<p>loading please wait!!</p>);
+            }
             const pics = this.props.memes;
             return pics.map((pic) => (
                   <MemeItem key={pic.id} meme={pic} selectImg={this.props.selectImg} />

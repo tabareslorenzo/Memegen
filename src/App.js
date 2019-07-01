@@ -1,4 +1,5 @@
 import React, {Component}  from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Memes from './components/Memes';
 import Create from './components/Create';
@@ -69,47 +70,29 @@ class App extends Component {
 
       render(){
             var {selected, loaded, pics} = this.state.memes;
-            if(!loaded){
-                  // console.log(pics);
-                  // console.log(loaded);
-                  // console.log(selected);
-                  return (
-                   <div className="App">
-                      <header className="App-header">
+            return (
+                   <Router>
+                        <div className="App">
+                           <header className="App-header">
 
-                      </header>
-
-
-                   </div>
-                  );
-            }
-            else {
-                  if(this.state.curImage.empty){
-                        return (
-                         <div className="App">
-                            <header className="App-header">
-
-                            </header>
-                             <Memes memes={pics} selectImg={this.selectImg} ></Memes>
-
-                         </div>
-                        );
-                  }
-                  else{
-                        return (
-                         <div className="App">
-                            <header className="App-header">
-
-                            </header>
-                            <Create curImage={this.state.curImage} addmeme={this.addmeme} ></Create>
-                             <Memes memes={pics} selectImg={this.selectImg} text={this.state.curImage.texts}></Memes>
-
-                         </div>
-                        );
-                  }
+                           </header>
+                           <Route exact path="/" render={props => (
+                        <React.Fragment>
+                              <Create curImage={this.state.curImage} addmeme={this.addmeme} ></Create>
+                              <Memes memes={pics} selectImg={this.selectImg} text={this.state.curImage.texts}></Memes>
+                        </React.Fragment>
+                        )}/>
+                  <Route path="/saved" render={props => (
+                        <React.Fragment>
+                              <Savedmemes savedmemes={this.state.savedmemes}/>
+                        </React.Fragment>
+                        )}/>
 
 
-            }
+                        </div>
+                  </Router>
+
+            );
 
       }
 

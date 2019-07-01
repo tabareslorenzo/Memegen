@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import './image.css';
 import Addtext from './Addtext';
 import Text from './Text';
@@ -20,13 +21,6 @@ class Create extends Component{
                   }
             ]
       }
-//       static getDerivedStateFromProps(nextProps, prevState){
-//             if(nextProps.text!==prevState.text){
-//                   return { text: nextProps.text};
-//             }
-//             else return null;
-// }
-
       selected = false
       moving = false
       changeloc = (e, id) => {
@@ -120,9 +114,21 @@ class Create extends Component{
       }
       save = () =>
       {
+            //this.props.addmeme(uri)
             //saveSvgAsPng(document.getElementById('meme'), "diagram.png");
-            svgAsPngUri(document.getElementById('meme')).then(uri => this.props.addmeme(uri));
+            var newMeme;
+            svgAsPngUri(document.getElementById('meme')).then(uri => this.dataready(uri));
             return;
+      }
+      dataready = (str) =>
+      {
+            const newMeme =
+            {
+                  meme_url: str,
+                  meme_id: 34
+            }
+            axios.post('http://localhost:4000/memes/add', newMeme).then(res => console.log(res.data));
+
       }
       // txts = this.;
       yy = 1;
@@ -142,37 +148,38 @@ class Create extends Component{
             //this.txts = this.state.text;
 
             //console.log(this.state.text[this.state.text.length-1])
-            return (
-            <div className="container">
-                  <Addtext addtext={this.addtext}></Addtext>
+            if(this.props.curImage.empty)
+            {
+                  return(<p>Select a image to start creating memes</p>);
+            }
+            else{
+                  return (
+                  <div className="container">
+                        <Addtext addtext={this.addtext}></Addtext>
 
-                  <svg id='meme' className="container-svg">
+                        <svg id='meme' className="container-svg">
 
-                  <image  xlinkHref= {this.props.curImage.url} width="100%" height="100%"></image>
+                        <image  xlinkHref= {this.props.curImage.url} width="100%" height="100%"></image>
 
-                  {this.state.text.map(txt => (<text id={txt.id} x={txt.xloc} y={txt.yloc} onMouseDown={event => this.changeloc(event,txt.id)} onMouseUp={event => this.stopchange(event,txt.id)} style={txtStyle}>{txt.string}</text>
-))}
+                        {this.state.text.map(txt => (<text id={txt.id} x={txt.xloc} y={txt.yloc} onMouseDown={event => this.changeloc(event,txt.id)} onMouseUp={event => this.stopchange(event,txt.id)} style={txtStyle}>{txt.string}</text>
+                  ))}
 
 
 
-                  </svg>
-                  <div>
-                        <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
-                        <button className="btn-container" style={btnStyle} onClick={this.save}>Save</button>
-                        <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
+                        </svg>
+                        <div>
+                              <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
+                              <button className="btn-container" style={btnStyle} onClick={this.save}>Save</button>
+                              <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
+                        </div>
+
+
                   </div>
+                  );
+
+            }
 
 
-
-
-
-
-
-
-
-
-            </div>
-            );
       }
 
 }
