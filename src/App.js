@@ -4,6 +4,13 @@ import './App.css';
 import Memes from './components/Memes';
 import Create from './components/Create';
 import Savedmemes from './components/Savedmemes';
+import Login from './components/Login';
+import Register from './components/Register';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+
+
 
 class App extends Component {
       state = {
@@ -25,7 +32,8 @@ class App extends Component {
             },
             savedmemes:[{
                   string:'',
-            }]
+            }],
+            loggedin: false
       }
       //<Savedmemes savedmemes={this.state.savedmemes}/>
       addmeme = (str) =>
@@ -53,6 +61,11 @@ class App extends Component {
                   }
             })
       }
+      loggin = () =>
+      {
+            console.log("what");
+            this.setState({loggedin: true});
+      }
       componentDidMount()
       {
             fetch('https://api.imgflip.com/get_memes').then(res => res.json()).then(json =>
@@ -66,6 +79,25 @@ class App extends Component {
 
                         })
                   })
+                  console.log("whatwhat");
+                  var token = localStorage.getItem('token');
+                  console.log(token);
+                  if(token){
+                        token = token.substring(6, token.length);
+
+                        console.log("whatwhat");
+                        const user = axios.create({
+                              baseURL: 'http://localhost:4000/users/meme',
+                              timeout: 1000,
+                              headers: {'Content-Type': 'application/json', 'Authorization': "Bearer " + token}
+
+                        });
+                        user.get()
+                              .then(response => {this.loggin();})
+                              .catch(function(error){
+                                    console.log(error);
+                              })
+                  }
       }
 
       render(){
@@ -85,12 +117,22 @@ class App extends Component {
                   <Route path="/saved" render={props => (
                         <React.Fragment>
                               <Savedmemes savedmemes={this.state.savedmemes}/>
+                              <button className="btn-container" ><Link to="/" >Home</Link></button>
                         </React.Fragment>
                         )}/>
+
+                  <Route path="/login" render={props => (
+                              <React.Fragment>
+                                    <Login loggin={this.loggin}/>
+                                    <Register loggin={this.loggin}/>
+                                    <button className="btn-container" ><Link to="/" >Home</Link></button>
+                              </React.Fragment>
+                              )}/>
 
 
                         </div>
                   </Router>
+
 
             );
 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import './image.css';
@@ -19,7 +20,33 @@ class Create extends Component{
                         id:0,
                         mving:false,
                   }
-            ]
+            ],
+            loggedin: false,
+      }
+      componentDidMount(){
+            console.log(this.state.loggedin);
+            this.setState({loggin: false});
+            console.log(this.state);
+
+
+            var token = localStorage.getItem('token');
+
+            // console.log(token);
+            if(token){
+                  token = token.substring(6, token.length);
+                  console.log("whatwhat");
+                  const user = axios.create({
+                        baseURL: 'http://localhost:4000/users/meme',
+                        timeout: 1000,
+                        headers: {'Content-Type': 'application/json', 'Authorization': "Bearer " + token}
+
+                  });
+                  user.get()
+                        .then(response => {this.setState({loggedin: true}); console.log(response);})
+                        .catch(function(error){
+                              console.log(error);
+                        })
+            }
       }
       selected = false
       moving = false
@@ -122,12 +149,51 @@ class Create extends Component{
       }
       dataready = (str) =>
       {
+            var min=0;
+            var max=10000;
+            var random = Math.floor(Math.random() * (+max - +min) + +min);
+            console.log(typeof str);
+            console.log(typeof random);
             const newMeme =
             {
-                  meme_url: str,
-                  meme_id: 34
+                  "meme_url": "str",
+                  "meme_id": random
             }
-            axios.post('http://localhost:4000/memes/add', newMeme).then(res => console.log(res.data));
+            // axios.post('http://localhost:4000/memes/add', newMeme).then(res => console.log(res.data));
+            var token = localStorage.getItem('token');
+            token = token.substring(6, token.length);
+            const user = axios.create({
+                  baseURL: 'http://localhost:4000/users/addmeme',
+                  timeout: 1000,
+                  headers: {'Content-Type': 'application/json', 'Authorization': "Bearer " + token},
+
+            });
+            user.post('',{
+                  "meme_url": str,
+                  "meme_id": random
+            })
+                  .then(response => {
+                        // this.setState({savedmemes: response.data.memes})
+                        // this.setState({savedmemes: [...this.state.savedmemes.filter(savedmeme => savedmeme.meme_url !== undefined)]})
+                        // this.setState({savedmemes: [...this.state.savedmemes.filter(savedmeme => savedmeme.meme_url.length > 20)]})
+console.log(response);
+                  })
+                  .catch(function(error){
+                        console.log(error);
+                  })
+            // let strs = localStorage.getItem('strs');
+            // let arr = [String];
+            // if(strs){
+            //       arr = JSON.parse(strs);
+            //       arr.push(newMeme.meme_url);
+            //       localStorage.setItem('strs', JSON.stringify(arr));
+            // }
+            // else{
+            //       arr=[];
+            //       arr.push(newMeme.meme_url);
+            //       localStorage.setItem('strs', JSON.stringify(arr));
+            // }
+            // localStorage.setItem(newMeme.meme_id, newMeme.meme_url);
 
       }
       // txts = this.;
@@ -152,6 +218,33 @@ class Create extends Component{
             {
                   return(<p>Select a image to start creating memes</p>);
             }
+            else if(!this.state.loggedin)
+            {
+                  console.log(this.state.loggedin);
+                  return (
+                  <div className="container">
+                        <Addtext addtext={this.addtext}></Addtext>
+
+                        <svg id='meme' className="container-svg">
+
+                        <image  xlinkHref= {this.props.curImage.url} width="100%" height="100%"></image>
+
+                        {this.state.text.map(txt => (<text id={txt.id} x={txt.xloc} y={txt.yloc} onMouseDown={event => this.changeloc(event,txt.id)} onMouseUp={event => this.stopchange(event,txt.id)} style={txtStyle}>{txt.string}</text>
+                  ))}
+
+
+
+                        </svg>
+                        <div>
+                              <button className="btn-container" style={btnStyle} ><Link to={`/login/`} >Login/Register</Link></button>
+                              <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
+                              <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
+                        </div>
+
+
+                  </div>
+                  );
+            }
             else{
                   return (
                   <div className="container">
@@ -171,6 +264,7 @@ class Create extends Component{
                               <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
                               <button className="btn-container" style={btnStyle} onClick={this.save}>Save</button>
                               <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
+                              <button className="btn-container" style={btnStyle} ><Link to={`/saved/`} >SavedMemes</Link></button>
                         </div>
 
 
