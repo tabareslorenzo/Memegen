@@ -216,16 +216,16 @@ userRoutes.route('/addmeme/:id').post(function(req,res){
       });
 });
 
-// memeRoutes.route('/').get(function(req, res){
-//       console.log("what");
-//       User.find(function(err, users){
-//             if(err){
-//                   console.log(err);
-//             }else{
-//                   res.json(users);
-//             }
-//       });
-// });
+userRoutes.route('/').get(function(req, res){
+      console.log("what");
+      User.find(function(err, users){
+            if(err){
+                  console.log(err);
+            }else{
+                  res.json(users);
+            }
+      });
+});
 
 userRoutes.route('/:user').get(function(req,res){
       let username = req.body.user_name;
