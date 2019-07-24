@@ -23,7 +23,9 @@ class login extends Component{
                               });
       }
       render () {
-            if(this.props.loggin){
+            if(this.props.loggedin){
+                  console.log(this.props.loggedin);
+                  console.log("whattttt");
                   return(<Redirect to="/" />);
             }
             return (

@@ -82,6 +82,7 @@ class App extends Component {
                   console.log("whatwhat");
                   var token = localStorage.getItem('token');
                   console.log(token);
+
                   if(token){
                         token = token.substring(6, token.length);
 
@@ -97,6 +98,12 @@ class App extends Component {
                               .catch(function(error){
                                     console.log(error);
                               })
+                  }
+                  if(token == null)
+                  {
+                        this.setState({loggedin: false})
+                        console.log("yep");
+                        console.log(this.state.loggedin);
                   }
       }
 
