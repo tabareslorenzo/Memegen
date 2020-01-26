@@ -89,10 +89,22 @@ userRoutes.route('/login').post(function(req, res, next) {
 //
 //       });
 
-userRoutes.route('/meme').get(passport.authenticate('jwt', { session: false }),
+userRoutes.route('/auth').get(passport.authenticate('jwt', { session: false }),
     function(req, res) {
           console.log("res");
-          console.log(req.user);
+          // console.log(req.user);
+          if(!req.user)
+          {
+
+                return res.send("ops");
+          }
+        res.send("ok");
+    }
+);
+userRoutes.route('/memes').get(passport.authenticate('jwt', { session: false }),
+    function(req, res) {
+          console.log("res");
+          // console.log(req.user);
           if(!req.user)
           {
 
@@ -149,14 +161,20 @@ userRoutes.route('/addmeme').post(passport.authenticate('jwt', { session: false 
           console.log("res");
           meme.save()
           .then(meme =>{
+                if(user.memes.length>7)
+                {
+                      console.log("lekjwrlkjwerklwelkrjwekljrlkjwerkljweklrjwelkrj");
+                      console.log(typeof user.memes);
+                      user.memes.splice(0,1);
+                }
                 user.memes.push(meme);
                       user.save()
                             .then(user =>{
                                   // console.log(meme);
                                   // console.log(user.memes);
-                                  console.log(meme);
+                                  // console.log(meme);
                                   console.log(typeof user.memes);
-                                  console.log(user.memes);
+                                  // console.log(user.memes);
                                   // console.log(user.memes[0].meme_url);
                                   // user.memes.push(meme);
                                   res.status(200).json({'meme': 'meme added successfully'});
@@ -190,9 +208,8 @@ userRoutes.route('/addmeme/:id').post(function(req,res){
                         user.memes.push(meme);
                               user.save()
                                     .then(user =>{
+
                                           // console.log(meme);
-                                          // console.log(user.memes);
-                                          console.log(meme);
                                           console.log(typeof user.memes);
                                           console.log(user.memes);
                                           // console.log(user.memes[0].meme_url);
@@ -271,7 +288,7 @@ userRoutes.route('/adduser').post(function(req, res){
                         user.save()
                               .then(user =>{
                                     // console.log(res.body);
-                                     console.log(user.user_password);
+
                                     res.status(200).json({'user': 'user added successfully'});
                               })
                               .catch(err => {

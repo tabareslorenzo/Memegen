@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import './image.css';
 
 
 class Form extends React.Component {
@@ -52,22 +54,27 @@ class Form extends React.Component {
       render(){
             return(
             <div>
-            <form>
-                  <label>Username</label>
-                  <input
-                  type="text"
-                  name="username"
-                  onChange={this.onChange}
-                  />
+            <form style={inputStyle}>
+                  <label>Username
+                        <input
+                        type="text"
+                        name="username"
+                        onChange={this.onChange}
+                        />
+                  </label>
 
-                  <label>Password</label>
-                  <input
-                  type="password"
-                  name="password"
-                  onChange={this.onChange}
-                  />
+
+                  <label>Password
+                        <input
+                        type="password"
+                        name="password"
+                        onChange={this.onChange}
+                        />
+                  </label>
+
             </form>
-            <button className="btn-container" style={btnStyle} onClick={this.onSubmit}>Submit</button>
+            <br/>
+            <Button onClick={this.onSubmit} variant="outline-primary" size="lg" >Submit</Button>
             </div>
       );
       }
@@ -82,5 +89,19 @@ const btnStyle = {
       cursor: 'pointer',
       float: 'right'
 }
+const formStyle = {
+      left: '100%',
+      backgroundColor: '#0033cc',
+      color: '#fff',
+      border: '10px',
+      padding: '5px 8px',
+      cursor: 'pointer',
+      float: 'right'
+}
+const inputStyle = {
+      padding:'10px'
+}
+
 
 export default Form;
+//<Button onClick={this.props.selectImg.bind(this, url)} variant="outline-primary" size="lg" block>{pics.name} </Button>

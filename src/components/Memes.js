@@ -12,7 +12,7 @@ class Memes extends Component{
             }
             const pics = this.props.memes;
             return pics.map((pic) => (
-                  <MemeItem key={pic.id} meme={pic} selectImg={this.props.selectImg} />
+                  <MemeItem key={pic.id} meme={pic} selectImg={this.props.selectImg.bind(this)} style={comStyle} />
             ));
       }
 
@@ -25,4 +25,10 @@ Memes.proTypes = {
       memes: PropTypes.array.isRequired
 }
 
+const comStyle={
+      // position: 'absolute', left: '50%', top: '50%',
+      // transform: 'translate(-50%, -50%)',
+      justifyContent: 'center'
+
+}
 export default Memes;

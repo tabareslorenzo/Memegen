@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
 import './image.css';
 
 class MemeItem extends Component{
@@ -10,7 +11,7 @@ class MemeItem extends Component{
             const url = pics.url;
             return (
                   <div className="btn-container" padding='10px'>
-                  <button onClick={this.props.selectImg.bind(this, url)} style = {btnStyle}>{pics.name}</button>
+                  <Button onClick={this.props.selectImg.bind(this, url)} variant="outline-primary" size="lg" block>{pics.name} </Button>
                   </div>
             );
       }
@@ -28,7 +29,8 @@ const btnStyle = {
       border: 'none',
       padding: '5px 8px',
       cursor: 'pointer',
-      float: 'right'
+      float: 'right',
+      size: 'sm'
 }
 
 // const container = {

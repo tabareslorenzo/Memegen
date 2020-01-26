@@ -3,6 +3,8 @@ import { Route, Redirect } from 'react-router'
 import PropTypes from 'prop-types';
 import Form from './Form';
 import axios from 'axios';
+import './Form.css';
+import Alert from 'react-bootstrap/Alert';
 
 
 
@@ -18,8 +20,10 @@ class login extends Component{
                         'Content-Type': 'application/json'
                     }
             }).then(res => {localStorage.setItem('token', res.data.token); console.log(res.data.token);this.props.loggin();})
-            .catch(function(error){
+            .catch(error => {
                                     console.log(error.response);
+                                    failedlogin = true;
+                                    this.props.logout();
                               });
       }
       render () {
@@ -28,14 +32,29 @@ class login extends Component{
                   console.log("whattttt");
                   return(<Redirect to="/" />);
             }
+            else if(failedlogin)
+            {
+                  return (
+                        <div className="container">
+                        <Alert variant="danger">
+                              Invalid username or password! 
+                        </Alert>
+                        <h1>Sign In</h1>
+                        <br/>
+                        <Form submit={this.submit}></Form>
+                        </div>
+                  );
+            }
             return (
-                  <div>
-                  <h1>sign in</h1>
+                  <div className="container">
+                  <h1>Sign In</h1>
+                  <br/>
                   <Form submit={this.submit}></Form>
                   </div>
             );
 
       }
-}
 
+}
+var failedlogin = false;
 export default login;

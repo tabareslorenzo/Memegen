@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Form from './Form';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import './Form.css';
 
 
 
@@ -19,15 +20,25 @@ class Register extends Component {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-            }).then(res => {localStorage.setItem('token', res.data.token); console.log(res.data);this.props.loggin();})
-            .catch(function(error){
+            }).then(res => {localStorage.setItem('token', res.data.token); console.log(res.data.token);
+                  axios.post('http://localhost:4000/users/login', newUser, {
+             headers: {
+                 'Content-Type': 'application/json'
+             }
+    }).then(res => {localStorage.setItem('token', res.data.token); console.log(res.data.token);this.props.loggin();})
+    .catch(function(error){
+                             console.log(error.response);
+                       });
+                  })
+            .catch(error =>{
                                     console.log(error.response);
                               });
       }
       render () {
             return (
-                  <div>
+                  <div className="container">
                   <h1>Register</h1>
+                  <br/>
                   <Form submit={this.submit}></Form>
                   </div>
             );

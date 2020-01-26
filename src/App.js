@@ -1,13 +1,15 @@
 import React, {Component}  from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Memes from './components/Memes';
 import Create from './components/Create';
 import Savedmemes from './components/Savedmemes';
 import Login from './components/Login';
 import Register from './components/Register';
+import Naviagationbar from './components/Navigationbar'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router'
 
 
 
@@ -61,10 +63,36 @@ class App extends Component {
                   }
             })
       }
+      hideImg = () =>
+      {
+            console.log("hidding image!!!!");
+            this.setState({curImage:
+                  {
+                        url:'',
+                        empty:true,
+                        texts:[{
+                              string:'',
+                              xloc: 0,
+                              yloc: 0,
+                              id:0,
+                              mving:false,
+                        }]
+                  }
+            })
+      }
       loggin = () =>
       {
             console.log("what");
             this.setState({loggedin: true});
+      }
+      logout = () =>
+      {
+            console.log("elkwjrlkehrkjwehrjkewhrkjewhrlkjewhr");
+            localStorage. removeItem('token')
+            this.setState({loggedin: false});
+            return(<Redirect to="/login" />);
+            this.setState({loggedin: false});
+
       }
       componentDidMount()
       {
@@ -78,6 +106,7 @@ class App extends Component {
                               }
 
                         })
+
                   })
                   console.log("whatwhat");
                   var token = localStorage.getItem('token');
@@ -85,17 +114,19 @@ class App extends Component {
 
                   if(token){
                         token = token.substring(6, token.length);
+                        this.loggin();
 
                         console.log("whatwhat");
                         const user = axios.create({
-                              baseURL: 'http://localhost:4000/users/meme',
-                              timeout: 1000,
+                              baseURL: 'http://localhost:4000/users/auth',
+                              timeout: 10000,
                               headers: {'Content-Type': 'application/json', 'Authorization': "Bearer " + token}
 
                         });
                         user.get()
                               .then(response => {this.loggin();})
-                              .catch(function(error){
+                              .catch(error => {
+                                    this.logout();
                                     console.log(error);
                               })
                   }
@@ -105,34 +136,40 @@ class App extends Component {
                         console.log("yep");
                         console.log(this.state.loggedin);
                   }
-      }
 
+      }
       render(){
+            /*
+                  background -image: url(image_url);
+                  background-size: cover;
+                  background-attachment: fixed;
+            */
             var {selected, loaded, pics} = this.state.memes;
             return (
                    <Router>
                         <div className="App">
-                           <header className="App-header">
 
+                           <header className="App-header">
+                                 <Naviagationbar isloggedin={this.state.loggedin}></Naviagationbar>
                            </header>
+                           {spacing}
                            <Route exact path="/" render={props => (
                         <React.Fragment>
-                              <Create curImage={this.state.curImage} addmeme={this.addmeme} ></Create>
-                              <Memes memes={pics} selectImg={this.selectImg} text={this.state.curImage.texts}></Memes>
+                              <Create curImage={this.state.curImage} logout={this.logout} hideImg={this.hideImg} addmeme={this.addmeme}></Create>
+                              <Memes memes={pics} selectImg={this.selectImg} text={this.state.curImage.texts} ></Memes>
                         </React.Fragment>
                         )}/>
                   <Route path="/saved" render={props => (
                         <React.Fragment>
-                              <Savedmemes savedmemes={this.state.savedmemes}/>
-                              <button className="btn-container" ><Link to="/" >Home</Link></button>
+                              <Savedmemes savedmemes={this.state.savedmemes} logout={this.logout}/>
                         </React.Fragment>
                         )}/>
 
                   <Route path="/login" render={props => (
                               <React.Fragment>
-                                    <Login loggin={this.loggin}/>
-                                    <Register loggin={this.loggin}/>
-                                    <button className="btn-container" ><Link to="/" >Home</Link></button>
+                                    <Login loggin={this.loggin}  logout={this.logout} loggedin={this.state.loggedin}/>
+                                    {spacing}
+                                    <Register loggin={this.loggin} loggedin={this.state.loggedin}/>
                               </React.Fragment>
                               )}/>
 
@@ -147,4 +184,7 @@ class App extends Component {
 
 
 }
+const spacing = <div><br /><br /><br /></div>;
+
+
 export default App;
