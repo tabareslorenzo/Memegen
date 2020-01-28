@@ -50,6 +50,12 @@ class Create extends Component{
       }
       selected = false
       moving = false
+      cursorPoint = (evt) => {
+            var svg = document.getElementById('meme');
+            var pt = svg.createSVGPoint();
+        pt.x = evt.clientX; pt.y = evt.clientY;
+        return pt.matrixTransform(svg.getScreenCTM().inverse());
+      }
 
       changeloc = (e, id) => {
             var x = id;
@@ -66,7 +72,7 @@ class Create extends Component{
                               this.selected = true
                               txt.mving = true
 
-                              var loc = cursorPoint(e);
+                              var loc = this.cursorPoint(e);
                               txt.xloc = loc.x//-234
                               txt.yloc = loc.y//-236
 
@@ -78,7 +84,7 @@ class Create extends Component{
                         {
 
                               document.removeEventListener('mousemove', (event) => this.changeloc, true)
-                              var loc = cursorPoint(e);
+                              var loc = this.cursorPoint(e);
                               txt.xloc = loc.x
                               txt.yloc = loc.y
 
@@ -99,7 +105,7 @@ class Create extends Component{
                   txt.mving = false
                   if(txt.id === id)
                   {
-                        var loc = cursorPoint(e);
+                        var loc = this.cursorPoint(e);
                         txt.xloc = loc.x
                         txt.yloc = loc.y
 
@@ -280,36 +286,4 @@ const headStyle = {
 const spacing = <div><br /><br /><br /></div>;
 var count = 0;
 
-cursorPoint = (evt) => {
-      var svg = document.getElementById('meme');
-      var pt = svg.createSVGPoint();
-  pt.x = evt.clientX; pt.y = evt.clientY;
-  return pt.matrixTransform(svg.getScreenCTM().inverse());
-}
 export default Create;
-
-
-
-// this.txts = this.state.text;
-// console.log(this.state.text[this.state.text.length-1])
-// return (
-// <div className="container">
-//       <Addtext addtext={this.addtext}></Addtext>
-//       <img src={this.props.curImage.url}></img>
-//       <ol>
-//       {this.txts.map(txt => ( <li>{txt}</li>))}
-//       </ol>
-// <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
-// <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
-//
-//
-//
-// </div>
-// );<canvas id="canvas"></canvas>
-//<img src={this.props.curImage.url}></img>
-//{this.txts.map(txt => ( <Text key={txt.id} text={txt}/>))}
-//{this.txts.map(txt => ( <text x="10" y="200" className="txtloc">{txt.string}</text>))}
-                              //
-                              // <button className="btn-container" style={btnStyle} onClick={this.download}>Download</button>
-                              // <button className="btn-container" style={btnStyle} onClick={this.save}>Save</button>
-                              // <button className="btn-container" style={btnStyle} onClick={this.resetText}>Reset</button>
