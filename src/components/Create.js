@@ -9,7 +9,6 @@ import {saveSvgAsPng} from 'save-svg-as-png';
 import {svgAsPngUri} from 'save-svg-as-png';
 import Button from 'react-bootstrap/Button';
 import Base64String  from 'lz-string';
-// var my_lzma = require("./src/lzma_worker.js").LZMA_WORKER;
 
 
 
@@ -27,14 +26,11 @@ class Create extends Component{
             loggedin: false,
       }
       componentDidMount(){
-            // console.log(this.state.loggedin);
             this.setState({loggin: false});
-            // console.log(this.state);
 
 
             var token = localStorage.getItem('token');
 
-            // console.log(token);
             if(token){
                   token = token.substring(6, token.length);
                   console.log("whatwhat");
@@ -57,17 +53,6 @@ class Create extends Component{
 
       changeloc = (e, id) => {
             var x = id;
-            //var y  = parseInt(e.target.id);
-            // console.log(e.target);
-            // console.log("change!!!");
-            // console.log(e.clientX);
-            // console.log(e.clientY);
-            // txt.xloc = e.clientX;
-            // txt.yloc = e.clientY;
-            // this.state.text.map(txt => (console.log(txt.xloc)));
-            //console.log("change!!!");
-            //addEventListener('mousemove', (event) => this.handleMouseMove(event, type));
-            //                        document.addEventListener('mousemove', (event) => this.changeloc2(event, txt.id))
 
             this.setState({text: this.state.text.map(txt=> {
                   if(txt.id == id)
@@ -76,48 +61,26 @@ class Create extends Component{
 
                         if(e.type === 'mousedown' && this.selected === false)
                         {
-                              console.log(id);
                               this.moving = true
                               document.addEventListener('mousemove', (event) => this.changeloc(event, txt.id), true)
                               this.selected = true
                               txt.mving = true
-                              console.log(e.clientX);
-                              console.log(e.clientY);
-                              console.log(txt.xloc);
-                              console.log(txt.yloc);
+
                               var loc = cursorPoint(e);
                               txt.xloc = loc.x//-234
                               txt.yloc = loc.y//-236
-                              // txt.xloc = e.clientX//-234
-                              // txt.yloc = e.clientY//-236
-                              console.log(txt.xloc);
-                              console.log(txt.yloc);
-                              console.log("hewjrkherkjh");
-                              //-234 -236
+
 
 
 
                         }
                         if(e.type === 'mousemove' && txt.mving === true)
                         {
-                              //console.log(id);
-                              // console.log(this.moving);
 
                               document.removeEventListener('mousemove', (event) => this.changeloc, true)
-                              // count++;
-                              // if(count < 2)
-                              // {
-                              //       console.log(e.clientX);
-                              //       console.log(e.clientY);
-                              //       console.log(txt.xloc);
-                              //       console.log(txt.yloc);
-                              // }
                               var loc = cursorPoint(e);
-                              txt.xloc = loc.x//-234
-                              txt.yloc = loc.y//-236
-
-                              // txt.xloc = e.clientX//-234
-                              // txt.yloc = e.clientY//-236
+                              txt.xloc = loc.x
+                              txt.yloc = loc.y
 
                         }
 
@@ -126,11 +89,9 @@ class Create extends Component{
 
             })});
 
-            // this.state.text.map(txt => (console.log(txt.xloc)));
 
       }
       stopchange= (e, id) => {
-            console.log("up");
             this.moving = false;
             this.setState({text: this.state.text.map(txt=> {
                   document.removeEventListener('mousemove', this.changeloc)
@@ -139,10 +100,9 @@ class Create extends Component{
                   if(txt.id === id)
                   {
                         var loc = cursorPoint(e);
-                        txt.xloc = loc.x//-234
-                        txt.yloc = loc.y//-236
-                        // txt.xloc = e.clientX//-234
-                        // txt.yloc = e.clientY//-236
+                        txt.xloc = loc.x
+                        txt.yloc = loc.y
+
                         document.removeEventListener('mousemove', this.changeloc)
                         document.removeEventListener('mousedown', this.changeloc)
                         this.selected = false
@@ -150,7 +110,6 @@ class Create extends Component{
 
 
                   }
-                  //console.log(document.EventTarget;
                   return txt;
 
             })});
@@ -161,23 +120,18 @@ class Create extends Component{
       }
       resetText = () => {
             var txts = this.state.text;
-            console.log("yrp");
             this.setState({text: txts.filter(txt=> false) });
       }
 
       download = () =>
       {
             saveSvgAsPng(document.getElementById('meme'), "diagram.png");
-            // svgAsPngUri(document.getElementById('meme')).then(uri => console.log("good"));
             return;
 
       }
       save = () =>
       {
-            //this.props.addmeme(uri)
-            //saveSvgAsPng(document.getElementById('meme'), "diagram.png");
-            var newMeme;
-            console.log(svgAsPngUri(document.getElementById('meme')));
+
             svgAsPngUri(document.getElementById('meme')).then(uri => this.dataready(uri));
             return;
       }
@@ -186,8 +140,6 @@ class Create extends Component{
             var min=0;
             var max=10000;
             var random = Math.floor(Math.random() * (+max - +min) + +min);
-            console.log(typeof str);
-            console.log(typeof random);
 
 
             const newMeme =
@@ -195,7 +147,6 @@ class Create extends Component{
                   "meme_url": "str",
                   "meme_id": random
             }
-            // axios.post('http://localhost:4000/memes/add', newMeme).then(res => console.log(res.data));
             var token = localStorage.getItem('token');
             token = token.substring(6, token.length);
             const user = axios.create({
@@ -204,13 +155,8 @@ class Create extends Component{
                   headers: {'Content-Type': 'application/json', 'Authorization': "Bearer " + token},
 
             });
-            // console.log(str);
 
             str = Base64String.compressToUTF16(str);
-
-            // console.log(str);
-            // var st2 = Base64String.decompress(str);
-            // console.log(st2);
 
 
             user.post('',{
@@ -218,9 +164,6 @@ class Create extends Component{
                   "meme_id": random
             })
                   .then(response => {
-                        // this.setState({savedmemes: response.data.memes})
-                        // this.setState({savedmemes: [...this.state.savedmemes.filter(savedmeme => savedmeme.meme_url !== undefined)]})
-                        // this.setState({savedmemes: [...this.state.savedmemes.filter(savedmeme => savedmeme.meme_url.length > 20)]})
                         console.log(response);
                   })
                   .catch(function(error){
@@ -229,46 +172,24 @@ class Create extends Component{
 
 
 
-            // let strs = localStorage.getItem('strs');
-            // let arr = [String];
-            // if(strs){
-            //       arr = JSON.parse(strs);
-            //       arr.push(newMeme.meme_url);
-            //       localStorage.setItem('strs', JSON.stringify(arr));
-            // }
-            // else{
-            //       arr=[];
-            //       arr.push(newMeme.meme_url);
-            //       localStorage.setItem('strs', JSON.stringify(arr));
-            // }
-            // localStorage.setItem(newMeme.meme_id, newMeme.meme_url);
-
       }
-      // txts = this.;
       yy = 1;
-      //
       txtt = document.getElementsByClassName("txtloc");
       num = 15;
       str = this.num.toString() + "100";
-      // getDerivedStateFromProps(this.props.curImage, this.state);
 
 
-      // console.log(this.txtt.top);
 
       render()
       {
             this.txtt.top = 100 + 'px';
-            //console.log(this.str);
-            //this.txts = this.state.text;
 
-            //console.log(this.state.text[this.state.text.length-1])
             if(this.props.curImage.empty)
             {
                   return(<h3 className="instructions" align="center" style={headStyle}>Select a from the list below to start creating memes</h3>);
             }
             else if(!this.state.loggedin)
             {
-                  // console.log(this.state.loggedin);
                   return (
                   <div>
                         <div className="container">
@@ -350,24 +271,16 @@ const txtStyle = {
       stroke: "#000",
       fontSize:'30px',
 }
-/*
 
-margin-left: auto;
-margin-right: auto;
-*/
 const headStyle = {
       align: "center",
       color: "white",
-      // backgroundColor: "black"
-      // fontFamily: "Impact",
-      // fill: "#FFF",
-      // stroke: "#000",
-      // fontSize:'30px',
+
 }
 const spacing = <div><br /><br /><br /></div>;
 var count = 0;
 
-function cursorPoint(evt){
+cursorPoint = (evt) => {
       var svg = document.getElementById('meme');
       var pt = svg.createSVGPoint();
   pt.x = evt.clientX; pt.y = evt.clientY;

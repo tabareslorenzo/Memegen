@@ -13,9 +13,7 @@ class Text extends Component {
                         id: this.props.text.id,
                   }
       }
-      // componentDidMount() {
-      //       this.state.text.addEventListener("mousedown", this.changeloc.bind(this, e));
-      // }
+
       changeloc = (e) => {
             console.log(e);
             console.log("change!!!");
@@ -28,10 +26,7 @@ class Text extends Component {
       }
 
       render () {
-            // this.state.text.addEventListener('mousedown', e => {
-            //       this.state.xloc = e.clientX;
-            //       this.state.yloc = e.clientY;
-            // });
+
 
 
 

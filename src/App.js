@@ -37,7 +37,6 @@ class App extends Component {
             }],
             loggedin: false
       }
-      //<Savedmemes savedmemes={this.state.savedmemes}/>
       addmeme = (str) =>
       {
             const smeme = {
@@ -65,7 +64,6 @@ class App extends Component {
       }
       hideImg = () =>
       {
-            console.log("hidding image!!!!");
             this.setState({curImage:
                   {
                         url:'',
@@ -82,12 +80,10 @@ class App extends Component {
       }
       loggin = () =>
       {
-            console.log("what");
             this.setState({loggedin: true});
       }
       logout = () =>
       {
-            console.log("elkwjrlkehrkjwehrjkewhrkjewhrlkjewhr");
             localStorage. removeItem('token')
             this.setState({loggedin: false});
             return(<Redirect to="/login" />);
@@ -108,15 +104,12 @@ class App extends Component {
                         })
 
                   })
-                  console.log("whatwhat");
                   var token = localStorage.getItem('token');
-                  console.log(token);
 
                   if(token){
                         token = token.substring(6, token.length);
                         this.loggin();
 
-                        console.log("whatwhat");
                         const user = axios.create({
                               baseURL: 'http://localhost:4000/users/auth',
                               timeout: 10000,
@@ -133,17 +126,11 @@ class App extends Component {
                   if(token == null)
                   {
                         this.setState({loggedin: false})
-                        console.log("yep");
-                        console.log(this.state.loggedin);
                   }
 
       }
       render(){
-            /*
-                  background -image: url(image_url);
-                  background-size: cover;
-                  background-attachment: fixed;
-            */
+
             var {selected, loaded, pics} = this.state.memes;
             return (
                    <Router>

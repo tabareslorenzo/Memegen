@@ -16,7 +16,6 @@ class Addtext extends React.Component {
             e.preventDefault();
             this.state.text.id = this.state.text.id+1;
             this.props.addtext(this.state.text);
-            //console.log(this.state.text);
             this.setState({text:
                   {
                         string: '',

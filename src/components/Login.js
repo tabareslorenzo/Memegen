@@ -14,7 +14,6 @@ class login extends Component{
             "user_name": txt.username,
         	"user_password": txt.password
             }
-            console.log(User);
                          axios.post('http://localhost:4000/users/login', User, {
                     headers: {
                         'Content-Type': 'application/json'
@@ -28,8 +27,6 @@ class login extends Component{
       }
       render () {
             if(this.props.loggedin){
-                  console.log(this.props.loggedin);
-                  console.log("whattttt");
                   return(<Redirect to="/" />);
             }
             else if(failedlogin)
@@ -37,7 +34,7 @@ class login extends Component{
                   return (
                         <div className="container">
                         <Alert variant="danger">
-                              Invalid username or password! 
+                              Invalid username or password!
                         </Alert>
                         <h1>Sign In</h1>
                         <br/>

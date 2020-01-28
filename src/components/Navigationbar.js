@@ -54,8 +54,7 @@ const linkStyle={
       border: '20px',
       paddingLeft: '30px',
       paddingRight: '30px',
-      // paddingTop: '30px',
-      // padding: '5px 8px',
+
       fontFamily: "Andale Mono",
       '&:hover': {
              backgroundColor: 'blue',
@@ -63,11 +62,3 @@ const linkStyle={
 
 }
 export default Navigationbar;
-
-/*
-<Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#link">Link</Nav.Link>
-*/
-
-
-//<Link to={`/login/`} >Login/Register</Link>

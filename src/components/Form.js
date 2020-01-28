@@ -17,7 +17,6 @@ class Form extends React.Component {
       onSubmit = (e) => {
             e.preventDefault();
             this.props.submit(this.state.submition);
-            console.log(this.state.submition);
             this.setState({submition:
                   {
                         username: '',
@@ -25,10 +24,7 @@ class Form extends React.Component {
                   }});
       }
       onChange = (e) => {
-            console.log(this.state.submition);
-            console.log(e.target.value);
             if(e.target.name == 'username'){
-                  console.log(this.state.submition.password);
                   this.setState({submition:
                   {
                         username: e.target.value,
@@ -37,7 +33,6 @@ class Form extends React.Component {
                   }});
             }
             else{
-                  console.log(this.state.submition.username);
 
                   this.setState({submition:
                   {
@@ -48,7 +43,6 @@ class Form extends React.Component {
             }
 
 
-            console.log(this.state.submition);
 
       }
       render(){

@@ -9,7 +9,6 @@ const PORT = 4000;
 const passport = require('passport');
 const users = require("./user");
 
-// const LocalStrategy = require('passport-local').Strategy;
 
 require("./passport")(passport);
 
@@ -21,7 +20,6 @@ app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(passport.initialize());
 
-//app.use(bodyParser.json());
 
 
 mongoose.connect('mongodb://mongodb:27017/memes', {useNewUrlParser: true});
@@ -35,8 +33,6 @@ connection.once('open', function(){
 app.use("/users", users);
 
 
-// app.use('/login', memeRoutes);
-//app.use('/user', userRoutes);
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 

@@ -7,7 +7,6 @@ class MemeItem extends Component{
 
       render() {
             const pics = this.props.meme;
-            // console.log(pics.meme.url);
             const url = pics.url;
             return (
                   <div className="btn-container" padding='10px'>
@@ -33,12 +32,7 @@ const btnStyle = {
       size: 'sm'
 }
 
-// const container = {
-//       height: '50px',
-//       width: '50px'
-// }
-//<div className="btn-container" padding='10px'>
-//<img src={url} alt="name"  ></img>
+
 
 
 

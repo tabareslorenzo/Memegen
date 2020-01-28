@@ -5,7 +5,6 @@ import MemeItem from './MemeItem';
 class Memes extends Component{
 
       render() {
-            // console.log(this.props.memes);
             if(this.props.memes.loaded===false)
             {
                   return(<p>loading please wait!!</p>);
@@ -26,8 +25,6 @@ Memes.proTypes = {
 }
 
 const comStyle={
-      // position: 'absolute', left: '50%', top: '50%',
-      // transform: 'translate(-50%, -50%)',
       justifyContent: 'center'
 
 }
