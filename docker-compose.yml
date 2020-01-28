@@ -2,9 +2,11 @@ version: '3'
 services:
       client:
             restart: always
-            build: ./src
+            build: ./
             ports:
                   - "80:3000"
+            depends_on:
+                - api
             links:
                   - api
       api:

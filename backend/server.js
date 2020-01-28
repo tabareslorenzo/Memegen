@@ -24,7 +24,7 @@ app.use(passport.initialize());
 //app.use(bodyParser.json());
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/memes', {useNewUrlParser: true});
+mongoose.connect('mongodb://mongodb:27017/memes', {useNewUrlParser: true});
 const connection = mongoose.connection;
 
 
