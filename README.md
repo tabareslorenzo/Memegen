@@ -1,5 +1,6 @@
 MemeGen
-/passport
-/jsonwebtoken
-/passport-jwt
-/validator
+
+Website: memesgen.cf
+
+Install dependencies:
+npm install passport jsonwebtoken passport-jwt validator
